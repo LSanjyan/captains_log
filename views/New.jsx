@@ -7,7 +7,7 @@ const New = () => {
       <form action="/logs" method="POST">
         <label>Title: <input type="text" name="title" /></label><br />
         <label>Entry: <textarea name="entry"></textarea></label><br />
-        <label>Is the Ship Broken? <input type="checkbox" name="shipIsBroken" /></label><br />
+        <label>Is the Ship Broken? <input type="checkbox" name="shipIsBroken" value="true" /></label><br />
         <input type="submit" value="Create Log" />
       </form>
     </div>
