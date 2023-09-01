@@ -4,8 +4,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const Log = require('./models/logs');
 const methodOverride = require('method-override');
-
-
+const logsController = require('./controllers/logsController');
+const logsEditController = require('./controllers/logsEditController');
 
 
 const app = express();
@@ -30,100 +30,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'jsx');
 app.engine('jsx', require('express-react-views').createEngine());
 
-app.get('/logs/new', (req, res) => {
-  res.render('New');
-});
+app.use('/logs', logsController);
+app.use('/logs', logsEditController);
 
-app.post('/logs', async (req, res) => {
-  try {
-    const newLog = new Log({
-      title: req.body.title,
-      entry: req.body.entry,
-      shipIsBroken: req.body.shipIsBroken === 'true',
-    });
 
-    await newLog.save();
-
-    res.redirect('/logs');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('An error occurred while saving the log.');
-  }
-});
-
-app.get('/logs', async (req, res) => {
-  try {
-    const logs = await Log.find();
-    res.render('Index', { logs });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('An error occurred while fetching logs.');
-  }
-});
-
-app.get('/logs/:id', async (req, res) => {
-  try {
-    const log = await Log.findById(req.params.id);
-    if (!log) {
-      return res.status(404).send('Log not found');
-    }
-    res.render('Show',{log});
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('An error occurred while fetching the log.');
-  }
-});
-
-app.delete('/logs/:id', async (req, res) => {
-    try {
-        const logId = req.params.id;
-        const deletedLog = await Log.findByIdAndDelete(logId);
-
-        if (!deletedLog) {
-            return res.status(404).send('Log not found');
-        }
-
-        res.redirect('/logs');
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('An error occurred while deleting the log.');
-    }
-});
-
-app.get('/logs/:id/edit', async (req,res) => {
-    try {
-        const log = await Log.findById(req.params.id);
-        if (!log) {
-            return res.status(404).send('Log not found');
-        }
-        res.render('Edit', { log });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('An error occured whi;e fetching the log for editing.') 
-
-        
-    }
-});
-
-app.put('/logs/:id', async (req, res) => {
-    try {
-        const logId = req.params.id;
-        const updatedLog ={
-            title: req.body.title,
-            entry: req.body.entry,
-            shipIsBroken: req.body.shipIsBroken === 'true',
-
-        };
-        const result = await Log.findByIdAndUpdate(logId, updatedLog,{ new: true});
-        if (!result) {
-            return res.status(404).send('Log not found');
-        }
-        res.redirect(`/logs/${logId}`);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('An error occurred while updating the log.');
-    }
-});
 
 
 app.listen(PORT, () => {
