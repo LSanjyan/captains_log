@@ -2,23 +2,12 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const Log = require('./models/logs');
+const Log = require('./models/logs'); 
 
 const app = express();
 const PORT = process.env.PORT || 5005;
 
 const mongoURI = process.env.MONGO_URI;
-
-
-const logSchema = new mongoose.Schema({
-  title: String,
-  entry: String,
-  shipIsBroken: Boolean,
-});
-
-
-const Log = mongoose.model('Log', logSchema);
-
 
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
@@ -67,19 +56,19 @@ app.get('/logs', async (req, res) => {
 });
 
 app.get('/logs/:id', async (req, res) => {
-    try {
-        const log = await Log.findById(req.params.id);
-        if (!log) {
-            return res.status(404).send('Log not found');
-        }
-        res.render('Show', { log });
-    } catch (error) {
-        console.error(error);
-        res.status(500),send('An error occurred while fetching the log.')
+  try {
+    const log = await Log.findById(req.params.id);
+    if (!log) {
+      return res.status(404).send('Log not found');
     }
+    res.render('Show', { log });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while fetching the log.');
+  }
 });
-
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
