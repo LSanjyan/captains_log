@@ -90,6 +90,41 @@ app.delete('/logs/:id', async (req, res) => {
     }
 });
 
+app.get('/logs/:id/edit', async (req,res) => {
+    try {
+        const log = await Log.findById(req.params.id);
+        if (!log) {
+            return res.status(404).send('Log not found');
+        }
+        res.render('Edit', { log });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occured whi;e fetching the log for editing.') 
+
+        
+    }
+});
+
+app.put('/logs/:id', async (req, res) => {
+    try {
+        const logId = req.params.id;
+        const updatedLog ={
+            title: req.body.title,
+            entry: req.body.entry,
+            shipIsBroken: req.body.shipIsBroken === 'true',
+
+        };
+        const result = await Log.findByIdAndUpdate(logId, updatedLog,{ new: true});
+        if (!result) {
+            return res.status(404).send('Log not found');
+        }
+        res.redirect(`/logs/${logId}`);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred while updating the log.');
+    }
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
