@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const Log = require('./models/logs'); 
+const Log = require('./models/logs');
 
 const app = express();
 const PORT = process.env.PORT || 5005;
@@ -61,7 +61,7 @@ app.get('/logs/:id', async (req, res) => {
     if (!log) {
       return res.status(404).send('Log not found');
     }
-    res.render('Show', { log });
+    res.render('Show',{log});
   } catch (error) {
     console.error(error);
     res.status(500).send('An error occurred while fetching the log.');

@@ -15,7 +15,7 @@ db.on('error', err => console.log(err.message + ' is mongod not running?'));
 db.on('open', async () => {
   console.log('mongo connected!');
 
-  // Seed data
+  
   const logsData = [
     {
       title: 'First Log',
@@ -27,12 +27,12 @@ db.on('open', async () => {
       entry: 'The ship is still holding up.',
       shipIsBroken: false,
     },
-    // Add more entries as needed
+    
   ];
 
   try {
-    await Log.deleteMany(); // Clear existing data
-    await Log.insertMany(logsData); // Insert seed data
+    await Log.deleteMany(); 
+    await Log.insertMany(logsData); 
     console.log('Seed data inserted.');
   } catch (error) {
     console.error(error);
