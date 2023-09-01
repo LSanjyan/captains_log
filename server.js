@@ -3,6 +3,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const Log = require('./models/logs');
+const methodOverride = require('method-override');
+
+
+
 
 const app = express();
 const PORT = process.env.PORT || 5005;
@@ -19,6 +23,8 @@ const db = mongoose.connection;
 db.on('error', err => console.log(err.message + " is mongod not running?"));
 db.on('open', () => console.log('mongo connected!'));
 db.on('close', () => console.log('mongo disconnected'));
+
+app.use(methodOverride('_method'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'jsx');
@@ -67,6 +73,23 @@ app.get('/logs/:id', async (req, res) => {
     res.status(500).send('An error occurred while fetching the log.');
   }
 });
+
+app.delete('/logs/:id', async (req, res) => {
+    try {
+        const logId = req.params.id;
+        const deletedLog = await Log.findByIdAndDelete(logId);
+
+        if (!deletedLog) {
+            return res.status(404).send('Log not found');
+        }
+
+        res.redirect('/logs');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred while deleting the log.');
+    }
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

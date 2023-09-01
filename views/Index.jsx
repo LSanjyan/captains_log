@@ -7,7 +7,10 @@ const Index = ({ logs }) => {
       <ul>
         {logs.map(log => (
           <li key={log._id}>
-           <a href={`/logs/${log._id}`}>{log.title}</a>}
+           <a href={`/logs/${log._id}`}>{log.title}</a>
+           <form action={`/logs/${log._id}?_method=DELETE`} method="POST">
+            <button type="submit">Delete</button>
+           </form>
           </li>
         ))}
       </ul>
