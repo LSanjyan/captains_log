@@ -4,6 +4,7 @@ const Index = ({ logs }) => {
   return (
     <div>
       <h1>Captain's Log - Index</h1>
+      <link rel="stylesheet" type="text/css" href="/style.css" />
       <ul>
         {logs.map(log => (
           <li key={log._id}>
@@ -16,6 +17,7 @@ const Index = ({ logs }) => {
         ))}
       </ul>
       <a href="/logs/new">Create a New Log</a>
+     
     </div>
   );
 };
