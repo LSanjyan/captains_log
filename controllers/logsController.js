@@ -3,11 +3,11 @@ const router = express.Router();
 const Log = require('../models/logs');
 
 
-router.get('/logs/new', (req, res) => {
+router.get('/new', (req, res) => {
     res.render('New');
   });
  
-  router.post('/logs', async (req, res) => {
+  router.post('/', async (req, res) => {
     try {
       const newLog = new Log({
         title: req.body.title,
@@ -34,7 +34,7 @@ router.get('/logs/new', (req, res) => {
     }
   });
 
-  router.get('/logs/:id', async (req, res) => {
+  router.get('/:id', async (req, res) => {
     try {
       const log = await Log.findById(req.params.id);
       if (!log) {
@@ -47,7 +47,7 @@ router.get('/logs/new', (req, res) => {
     }
   });  
 
-  router.delete('/logs/:id', async (req, res) => {
+  router.delete('/:id', async (req, res) => {
     try {
         const logId = req.params.id;
         const deletedLog = await Log.findByIdAndDelete(logId);

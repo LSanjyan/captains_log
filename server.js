@@ -25,7 +25,7 @@ db.on('open', () => console.log('mongo connected!'));
 db.on('close', () => console.log('mongo disconnected'));
 
 app.use(methodOverride('_method'));
-
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'jsx');
 app.engine('jsx', require('express-react-views').createEngine());
