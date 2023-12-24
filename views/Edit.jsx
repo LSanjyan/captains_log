@@ -11,7 +11,7 @@ const Edit = ({ log }) => {
         <label htmlFor="entry">Entry:</label>
         <textarea id="entry" name="entry" rows="4" defaultValue={log.entry} required></textarea><br />
 
-        <label htmlFor="shipIsBroken">Is the Ship Broken?</label>
+        <label htmlFor="shipIsBroken">Ship is broken completely?</label>
         <select id="shipIsBroken" name="shipIsBroken" defaultValue={log.shipIsBroken ? 'true' : 'false'}>
           <option value="true">Yes</option>
           <option value="false">No</option>
