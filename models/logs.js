@@ -5,7 +5,7 @@ const logSchema = new mongoose.Schema({
   entry: String,
   shipIsBroken: {
     type: Boolean,
-    default: False,
+    default: True,
   },
 });
 
